@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>상단 메뉴만들기</title>
+
+<style>
+
+#nav {
+	background: #748D63;
+	width : 800px;
+}
+
+ul {
+	margin : 0px;   /*바깤쪽 여백이 사라짐 */
+	padding : 0px;
+}
+
+li {
+	display : inline-block;	     /* 새 줄로 넘어가지 않게 */
+	list-style-type : none;
+	padding : 0px 15px;   			/* 시계 방향으로 돌아가는데 반복되면 두개만 적어도 된다. */
+}
+
+ul li a {
+	color : white;
+	text-decoration : none;
+}
+
+/* 마우스 올라 갈 때 색 */
+nav ul li a:hover {
+color : violet;                       
+}
+
+
+
+
+
+</style>
+</head>
+<body>
+
+<nav id = "nav">
+
+<ul>
+<li><a href ="./menu.html#home">HOME</a></li>
+<li><a href ="./menu.html#inner">INNER WEWR</a></li>
+<li><a href ="./menu.html#outer">OUTER</a></li>
+<li><a href ="./menu.html#top">SHIRT</a></li>
+<li><a href ="./menu.html#pants">PANTS</a></li>
+<li><a href ="./menu.html#acc">ACC/BAG</a></li>
+<li><a href ="./menu.html#qa">Q&A</a></li>
+</ul>
+
+<div id ="home">홈에 관련된 내용입니다.</div>
+<div id ="inner">이너에 관련된 내용입니다.</div>
+<div id ="outer">아우터에 관련된 내용입니다.</div>
+<div id ="top">셔츠에 관련된 내용입니다.</div>
+<div id ="pants">팬츠에 관련된 내용입니다.</div>
+<div id ="acc">악세서리에 관련된 내용입니다.</div>
+<div id ="qa">질문에 관련된 내용입니다.</div>
+
+
+</nav>
+
+</body>
+</html>
