@@ -18,43 +18,43 @@ function check() {
 	//유효성 검사하기
 	var fm = document.frm;
 	
-	if(fm.memberId.value == "") {
+	if(fm.memberid.value == "") {
 		alert("아이디를 입력해주세요");
-		fm.memberId.focus();  // 커서가 입력안한 해당 자리로 갈수 있도록 
+		fm.memberid.focus();  // 커서가 입력안한 해당 자리로 갈수 있도록 
 		return;
-	} else if(fm.memberPw.value =="") {
+	} else if(fm.memberpw.value =="") {
 		alert("비밀번호를 입력해주세요");
-		fm.memberPw.focus(); 
+		fm.memberpw.focus(); 
 		return;
-	}else if(fm.memberPw2.value =="") {
+	}else if(fm.memberpw2.value =="") {
 		alert("비밀번호2를 입력해주세요");
-		fm.memberPw2.focus(); 
+		fm.memberpw2.focus(); 
 		return;
-	}else if(fm.memberPw.value != fm.memberPw2.value) {
+	}else if(fm.memberpw.value != fm.memberpw2.value) {
 		alert("비밀번호가 일치하지 않습니다.");
-		fm.memberPw2.value=""; 
-		fm.memberPw2.focus(); 
+		fm.memberpw2.value=""; 
+		fm.memberpw2.focus(); 
 		return;
-	}else if(fm.memberName.value =="") {
+	}else if(fm.membername.value =="") {
 		alert("이름을 입력해주세요");
-		fm.memberName.focus(); 
+		fm.membername.focus(); 
 		return;
-	}else if(fm.memberEmail.value =="") {
+	}else if(fm.memberemail.value =="") {
 		alert("이메일을 입력해주세요");
-		fm.memberEmail.focus(); 
+		fm.memberemail.focus(); 
 		return;
-	}else if(email.test(fm.memberEmail.value) == false) {
+	}else if(email.test(fm.memberemail.value) == false) {
 		alert("이메일 형식이 올바르지 않습니다.");
-		fm.memberEmail.value=""; 
-		fm.memberEmail.focus(); 
+		fm.memberemail.value=""; 
+		fm.memberemail.focus(); 
 		return;
-	}else if(fm.memberPhone.value =="") {
+	}else if(fm.memberphone.value =="") {
 		alert("연락처를 입력해주세요");
-		fm.memberPhon.focus(); 
+		fm.memberphon.focus(); 
 		return;
-	}else if(fm.memberBirth.value =="") {
+	}else if(fm.memberbirth.value =="") {
 		alert("생년월일을 입력해주세요");
-		fm.memberPW.focus(); 
+		fm.memberbirth.focus(); 
 		return;
 	}else if(hobbyCheck()==false) {
 		alert("취미를 1개 이상 선택해주세요");
@@ -82,7 +82,7 @@ function check() {
 
 function hobbyCheck() {
 	
-	var arr = document.frm.memberHobby //문서객체안에 폼객체 안에 input객체 선언 
+	var arr = document.frm.memberhobby //문서객체안에 폼객체 안에 input객체 선언 
 	var flag = false;  //기본값을 false로 설정 // 체크유무 초기값 false 선언
 	
 	for(var i =0; i<arr.length; i++){   //선택한 여러값을 반복해서 출력
@@ -126,32 +126,32 @@ function hobbyCheck() {
 	<table style ="width:500px; "> 
 	<tr> 
 		<th class="idcolor">아이디</th> 
-		<td> <input type = "text" name = "memberId" maxlength = "20" style = "width:200px" value ="" placeholder="아이디를 입력하세요."></td> 
+		<td> <input type = "text" name = "memberid" maxlength = "20" style = "width:200px" value ="" placeholder="아이디를 입력하세요."></td> 
 	</tr>
 	<tr>
 		<th class="idcolor">비밀번호</th> 
-		<td><input type = "password" name = "memberPw" maxlength = "20" style = "width:200px"></td> 
+		<td><input type = "password" name = "memberpw" maxlength = "20" style = "width:200px"></td> 
 	</tr>
 	<tr> 
 		<th>비밀번호 확인</th> 
-		<td><input type = "password" name = "memberPw2" maxlength = "20" style = "width:200px"></td> 
+		<td><input type = "password" name = "memberpw2" maxlength = "20" style = "width:200px"></td> 
 	</tr>
 	<tr> 
 		<th id="name">이름</th> 
-		<td><input type = "text" name = "memberName" maxlength = "20" style = "width:200px"></td> 
+		<td><input type = "text" name = "membername" maxlength = "20" style = "width:200px"></td> 
 	</tr>
 	<tr> 
 		<th>이메일</th> 
-		<td><input type = "email" name = "memberEmail" maxlength = "20" style = "width:200px"></td> 
+		<td><input type = "email" name = "memberemail" maxlength = "20" style = "width:200px"></td> 
 	</tr>
 	<tr> 
 		<th>연락처</th> 
-		<td><input type = "number" name = "memberPhone" maxlength = "20" style = "width:200px"></td> 
+		<td><input type = "number" name = "memberphone" maxlength = "20" style = "width:200px"></td> 
 	</tr>
 	<tr> 
 		<th>주소</th> 
 		<td>
-		<select name = "memberAddr" style = "width:100px;">			
+		<select name = "memberaddr" style = "width:100px;">			
 		<option value = "서울">서울</option>
 		<option value = "대전" selected>대전</option>
 		<option value = "부산">부산</option>
@@ -162,21 +162,21 @@ function hobbyCheck() {
 	<tr> 
 		<th>성별</th> 
 		<td>
-		<input type = "radio" name = "memberGender" id = "select1" value="M"><label for="select1">남성</label>
-		<input type = "radio" name = "memberGender" id = "select2" value="F" checked><label for="select2">여성</label>
+		<input type = "radio" name = "membergender" id = "select1" value="M"><label for="select1">남성</label>
+		<input type = "radio" name = "membergender" id = "select2" value="F" checked><label for="select2">여성</label>
 		</td>
 	</tr>
 	<tr> 
 		<th>생년월일</th> 
-		<td><input type = "number" name = "memberBirth" maxlength = "8" style = "width:100px"> 
+		<td><input type = "number" name = "memberbirth" maxlength = "8" style = "width:100px"> 
 		예) 20240202 </td> 
 	</tr>
 	<tr> 
 		<th>취미</th> 
 	<td>
-		<input type="checkbox" name="memberHobby" id="check1" value="야구"><label for="check1">야구</label>
-		<input type="checkbox" name="memberHobby" id="check2" value="농구"><label for="check2">농구</label>
-		<input type="checkbox" name="memberHobby" id="check3" value="축구"><label for="check3">축구</label>
+		<input type="checkbox" name="memberhobby" id="check1" value="야구"><label for="check1">야구</label>
+		<input type="checkbox" name="memberhobby" id="check2" value="농구"><label for="check2">농구</label>
+		<input type="checkbox" name="memberhobby" id="check3" value="축구"><label for="check3">축구</label>
 		</td> 
 	</tr>
 

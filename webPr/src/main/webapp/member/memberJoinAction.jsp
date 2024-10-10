@@ -5,10 +5,14 @@
 <%@ page import="java.sql.*" %>
 <%@include file ="/common/dbconn.jsp"%>
 <%@include file ="/common/function.jsp"%>
+<jsp:useBean  id="mv" class="Vo.MemberVo"   scope="page" />
+<!-- scope범위는 4가지가 있다 page(페이지내에서만),request(전송하는범위까지),
+session(서버에서 끝날때까지 로그아웃),application(프로그램이 살아있을때까지) -->	
+<jsp:setProperty name="mv" property="*" /> <!-- 바인딩기술을 위해 변수이름같게함 -->
 
 
  <% 
-String memberId = request.getParameter("memberId");
+/* String memberId = request.getParameter("memberId");
   System.out.println("memberId값은?" + memberId); 
   
   String memberPw = request.getParameter("memberPw");
@@ -46,7 +50,7 @@ String memberId = request.getParameter("memberId");
 		           memberInHobby = memberInHobby + memberHobby[i] + ",";
 		       }
 		   }
-
+ */
 		   
    // 1.jsp 프로그래밍 (날코딩 날코딩방법부터 -> 함수화 -> 객체화 방식)
    // 2. java/jsp 프로그래밍 (model1, model2 MVC방식으로 진화되는 방법) 
@@ -73,17 +77,45 @@ String memberId = request.getParameter("memberId");
    
    //PreparedStatement 클래스는 메소드화 시켜서 사용함
    
+      String[] memberHobby = request.getParameterValues("memberHobby");  //배열 타입으로 받겠다. 파라미터 밸류스 사용해서 
+		   String memberInHobby = "";
+
+		   if (memberHobby == null) {
+		       memberInHobby = "No hobbies selected";  // 기본 값 설정
+		   } else {
+		       for (int i = 0; i < memberHobby.length; i++) {
+		           memberInHobby = memberInHobby + memberHobby[i] + ",";
+		       }
+		   }
+   
+   
    //매개변수에 인자값을 대입해서 함수호출하자 
-   int value = memberInsert(conn,memberId,memberPw,memberName,memberGender,memberBirth,memberAddr,memberPhone,memberEmail,memberInHobby);
+   int value = memberInsert(
+		   conn,
+		   mv.getMemberid(),
+		   mv.getMemberpw(),		//객체안에 생성해놓은 멤버 메소드를 호출해서 값을꺼낸다
+		   mv.getMembername(),
+	   	   mv.getMembergender(),
+	   	   mv.getMemberbirth(),
+	   	   mv.getMemberaddr(),
+	   	   mv.getMemberphone(),
+	   	   mv.getMemberemail(),
+	   	   memberInHobby);
+
+   	
    
    // value값이 1이면 입력성공! 0이면 입력실패 
    // 1이면 성공했기 때문에 다른 페이지로 이동시키고 0이면 다시 회원가입 입력 페이지로 간다. 
   
    String pageUrl =""; 
+   String msg ="";
    if(value==1) {						// index.jsp파일은 web.xml 웹 설정파일에 기본등록되어 있기 때문에 생략이 가능하다. 그냥 "/"; 이렇게 작성해도 됩니당
-	   pageUrl=request.getContextPath()+"/index.jsp"; //request.getContextPath() : 프로젝트 이름  //메인 페이지입니다~
+	
+	   msg="회원 가입되었습니다";
+   pageUrl=request.getContextPath()+"/index.jsp"; //request.getContextPath() : 프로젝트 이름  //메인 페이지입니다~
 	 //  response.sendRedirect(url); //전송방식 sendRedirect는 요청받으면 다시 그쪽으로 가라고 지시하는것 
    }else {
+		msg="회원 가입 오류발생하였습니다";
 	   pageUrl=request.getContextPath()+"/member/memberJoin.jsp";  //실패하면 다시 회원가입 페이지로 가는것~
 	 //  response.sendRedirect(pageUrl);
    }
@@ -92,6 +124,7 @@ String memberId = request.getParameter("memberId");
     
   %>
   <script>
+  alert('<%=msg%>');
   // 자바스크립트로 페이지 이동시킨다. document객체 안에 location객체 안에 주소 속성에 담아서
   document.location.href="<%=pageUrl%>";
   </script>
