@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<div class= "main">박스형 모델test </div>
+<div class= "main">박스형 모델test2222 </div>
 
 </body>
 </html>
