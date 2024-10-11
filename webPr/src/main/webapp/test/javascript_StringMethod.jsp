@@ -45,6 +45,9 @@
  	let value2 = str4.substring(2,4);	// 2번자리 다음부터 4번자리까지
 	document.write ("값은? " + value2);  // string은 자리를 자른다. 
 	
+	
+	
+	
 	// trim : 공백제거
 	let s = " 안녕  ";
 	let ss = s.trim();
