@@ -5,9 +5,14 @@
     
 //    System.out.println("안녕하세요");    
 //   out.println("웹페이지에서 안녕하세요?");
-    
-String msg =(String)session.getAttribute("msg");
-session.setAttribute("msg","");
+
+   String msg = "";
+   if(session.getAttribute("msg") != null) {
+      msg = (String)session.getAttribute("msg");   
+   }
+
+   session.setAttribute("msg", "");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -29,6 +34,13 @@ alert('<%=msg%>');
 <body>
 
 <div class= "main">환영합니다. 메인 페이지입니다.</div>
+<div>
+<!-- 겟 컨텍스트패스가 뭔 뜻이냐? 프로젝트 이름을 뜻한다().  -->
+<a href="<%=request.getContextPath()%>/member/memberJoin.aws">회원가입 페이지 가기</a>
+</div>
+<div>
+<a href="<%=request.getContextPath()%>/member/memberLogin.aws">회원로그인 하기</a>
+</div>
 
 </body>
 </html>

@@ -1,5 +1,6 @@
 package mvc.controller;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,12 +12,14 @@ import mvc.vo.MemberVo;
 
 import java.io.IOException;
 
+
+
+
 // @ 이거 어노테이션이라고 부른다. 				// httpservlet을 상속받고 있다 
 @WebServlet("/MemberController")		// 서블릿 : 자바로 만든 웹페이지 (접속주소는 : /MemberController 이렇게 나타난다)
 public class MemberController extends HttpServlet { // http 서블릿을 상속받고 있다. (extends) 그 뜻은 http통신을 하고 있다
 	private static final long serialVersionUID = 1L;
 
-    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -28,9 +31,8 @@ public class MemberController extends HttpServlet { // http 서블릿을 상속�
 		System.out.println("uri" + uri);	// mvc_programming/member/memberJoinAction.aws
 		String[] location = uri.split("/");
 		
-		if(location[3].equals("memberJoinAction.aws")) { // 4번째방의 값이 memberJoinAction.aws이면 처리를하세요 
-			
-			
+		if(location[2].equals("memberJoinAction.aws")) { // 3번째방의 값이 memberJoinAction.aws이면 처리를하세요 
+		
 			String memberid = request.getParameter("memberid");
 			String memberpw = request.getParameter("memberpw");
 			String membername = request.getParameter("membername");
@@ -39,18 +41,17 @@ public class MemberController extends HttpServlet { // http 서블릿을 상속�
 			String memberaddr = request.getParameter("memberaddr");
 			String memberphone = request.getParameter("memberphone");
 			String memberemail = request.getParameter("memberemail");
+			String[]memberhobby = request.getParameterValues("memberhobby");  //배열 타입으로 받겠다. 파라미터 밸류스 사용해서 
+			String memberInHobby = "";
 			
-			// 매개변수에 인자값 대입해서 함수호출하자 
-			 String[] memberHobby = request.getParameterValues("memberHobby");  //배열 타입으로 받겠다. 파라미터 밸류스 사용해서 
-			 String memberInHobby = "";
-			
-			 if (memberHobby == null) {
+			 if (memberhobby == null) {
 			     memberInHobby = "No hobbies selected";  // 기본 값 설정
 			 } else {
-			     for (int i = 0; i < memberHobby.length; i++) {
-			         memberInHobby = memberInHobby + memberHobby[i] + ",";
+			     for (int i = 0; i < memberhobby.length; i++) {
+			         memberInHobby = memberInHobby + memberhobby[i] + ",";
 			     }
 			 }
+		
 
 		    MemberDao md = new MemberDao();
 		 	int value = md.memberInsert(memberid,
@@ -61,7 +62,7 @@ public class MemberController extends HttpServlet { // http 서블릿을 상속�
 			 			memberaddr,
 			 			memberphone,
 			 			memberphone,
-			 	   	   memberInHobby);
+			 	   	    memberInHobby);
 
 		   	
 		   
@@ -70,7 +71,7 @@ public class MemberController extends HttpServlet { // http 서블릿을 상속�
 		   String pageUrl ="";
 		   String msg ="";
 		   
-		   HttpSession session = request.getSession();  // 세션갹채 활용
+		   HttpSession session = request.getSession();  // 세션객채 활용
 		   
 		   if(value==1) {// index.jsp파일은 web.xml 웹 설정파일에 기본등록되어 있기 때문에 생략이 가능하다. 그냥 "/"; 이렇게 작성해도 됩니당
 			
@@ -86,14 +87,25 @@ public class MemberController extends HttpServlet { // http 서블릿을 상속�
 				
 			   pageUrl=request.getContextPath()+"/member/memberJoin.jsp";  //실패하면 다시 회원가입 페이지로 가는것~
 			   response.sendRedirect(pageUrl);
-		   }
+		   } 
 		   
-		  
+		}else if(location[2].equals("memberJoin.aws")) {
+			System.out.println("들어왔나?");
 			
+			String uri2 = "/member/memberJoin.jsp";
+			RequestDispatcher rd = request.getRequestDispatcher(uri2);
+		    rd.forward(request, response);  // 포워드 방식 : 내부 안에서 넘겨서 토스하겠다는뜻
+		
+		}else if(location[2].equals("memberLogin.aws")) {   // 회원 로그인 페이지 index로 넘긴다.
+			System.out.println("들어왔나?");
+			
+			String uri2 = "/member/memberLogin.jsp";
+			RequestDispatcher rd = request.getRequestDispatcher(uri2);
+		    rd.forward(request, response);  // 포워드 방식 : 내부 안에서 넘겨서 토스하겠다는뜻
 		}
 	}
 	
-	// 보이지 않는 .. .
+	// 보이지 않는
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		doGet(request, response);
