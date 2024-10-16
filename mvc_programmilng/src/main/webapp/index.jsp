@@ -12,6 +12,24 @@
    }
 
    session.setAttribute("msg", "");
+   
+   int midx = 0;
+   String memberId="";
+   String memberName="";
+   String alt = "";
+   String logMsg ="";
+   
+   if (session.getAttribute("midx") != null) { // 로그인이 되었으면
+	   midx =(int)session.getAttribute("midx");
+	   memberId = (String)session.getAttribute("memberid");
+	   memberName = (String)session.getAttribute("memberName");
+	     
+	   alt = memberName + "님, 로그인 되었습니다.";
+	   logMsg ="<a href='"+request.getContextPath()+"/member/memberLogout.aws'>로그아웃</a>"; 
+   }else {
+	   alt = "로그인 하세요";
+	   logMsg ="로그인";
+   }
 
 %>
 <!DOCTYPE html>
@@ -32,6 +50,9 @@ alert('<%=msg%>');
 </script>
 </head>
 <body>
+<%=alt %>
+<%=logMsg %>
+<hr>
 
 <div class= "main">환영합니다. 메인 페이지입니다.</div>
 <div>

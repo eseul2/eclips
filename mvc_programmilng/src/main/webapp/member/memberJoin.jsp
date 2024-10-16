@@ -5,7 +5,7 @@
 <TITLE> 회원가입</TITLE>
 
 <link href= "../css/style.css" type-"text/css" rel="stylesheet" >
-
+<script src="https://code.jquery.com/jquery-latest.min.js"></script> <!-- CDN주소 제이퉈리 사용하는주소 -->
 <script>
 
 const email = /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/i;
@@ -99,6 +99,15 @@ function hobbyCheck() {
 	return flag;
 }
 
+$(document).ready(function(){
+	
+	$("#btn").click(function(){
+		alert("중복체크버튼 클릭");
+	});
+
+		
+});
+
 
 
 </script>
@@ -127,7 +136,9 @@ function hobbyCheck() {
 	<table style ="width:500px; "> 
 	<tr> 
 		<th class="idcolor">아이디</th> 
-		<td> <input type = "text" name = "memberid" maxlength = "20" style = "width:200px" value ="" placeholder="아이디를 입력하세요."></td> 
+		<td> <input type = "text" name = "memberid" maxlength = "20" style = "width:200px" value ="" placeholder="아이디를 입력하세요.">
+		<button type="button" id="btn">아이디 중복체크</button>
+		</td> 
 	</tr>
 	<tr>
 		<th class="idcolor">비밀번호</th> 

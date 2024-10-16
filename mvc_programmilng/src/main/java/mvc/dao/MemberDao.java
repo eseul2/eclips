@@ -2,12 +2,16 @@ package mvc.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import mvc.dbcon.Dbconn;
+import mvc.vo.MemberVo;
 
 public class MemberDao {	// MVC 방식으로 가기전에 첫번째 model1 방식 (설계)
 	
-	private Connection conn;	// 전역변수로 사용해서 페이지 어느곳에서도 사용할 수 있다. 
+	private Connection conn;
+	private PreparedStatement pstmt; // 전역변수로 사용해서 페이지 어느곳에서도 사용할 수 있다. 
 	
 	// 생성자를 통해서 db연결해서 메소드 사용
 	public MemberDao() {
@@ -24,7 +28,7 @@ public class MemberDao {	// MVC 방식으로 가기전에 첫번째 model1 방�
 	
 	int value=0;   //메소드 지역변수  결과값을 담는다
 	String sql ="";
-	PreparedStatement pstmt = null;   //쿼리 구문클래스 선언
+	pstmt = null;   //쿼리 구문클래스 선언
 	try{
 		
 		   sql ="insert into member(memberid,memberpw,membername," 
@@ -55,6 +59,49 @@ public class MemberDao {	// MVC 방식으로 가기전에 첫번째 model1 방�
 		}
 	}
 	return value;
+	}
+	
+	
+	
+	// 로그인해서 회원정보를 가져오는 메소드 
+	public MemberVo memberLoginCheck(String memberId, String memberPw) {
+	
+		MemberVo mv = null;
+		
+		String sql = "select * from member where memberid =? and memberpw =?";
+		ResultSet rs = null;	// db에서 결과 데이터를 받아오는 전용 클래스 
+		
+		try {
+			pstmt = conn.prepareStatement(sql); 
+			pstmt.setString(1, memberId);
+			pstmt.setString(2, memberPw);
+			rs = pstmt.executeQuery();   // 결과가 나온것을 rs에 담겠다. 
+			
+			
+			if(rs.next()==true) {  // 커서가 이동해서 데이터 값이 있으면. if(rs.next())와 같은 표현
+				String memberid =  rs.getString("memberid"); // 결과값에서 아이디값을 뽑는다.
+				int midx = rs.getInt("midx"); 	// 결과값에서 회원번호를 뽑는다.
+				String membername = rs.getString("membername");   // 이름도 불러오기 
+				
+				mv = new MemberVo();   // 화면에 가지고 갈 데이터를 담을 MemberVo라는 객체를 생성한다.
+				mv.setMemberid(memberid); // 옮겨 담는다.
+				mv.setMidx(midx);
+				mv.setMembername(membername);   
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return mv;
 	}
 
 }

@@ -111,5 +111,8 @@ function autoScroll() {
 습<br>
 니<br>
 다<br>
+
+ <!-- history 객체 활용하기  -->
+<a href="http://localhost:8088/webPr/test/javascript_history.jsp">이동</a>
 </body>
 </html>
