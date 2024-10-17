@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta .name="viewport" content="width=device-width, initial-scale=1.0">
+<title>게시판</title>
+<style>
+    table {
+        margin: auto;  /* 화면 중앙 정렬 */
+        width: 700px;
+        border-radius: 5px;  /* 모서리를 둥글게  */
+        border-collapse: collapse; /* 테이블 셀의 경계선 겹쳐서 하나로 표시.  */
+        border-top: none;	/* 상단 경계선 없애기  */
+    } 
+     .header {
+        background-color: rgb(218, 231, 255);  /* 색상 */
+        text-align: center;		/* 헤더 요소 안의 텍스트를 가운데 정렬 */
+    }
+     .table td, .table th {
+        border-bottom: 1px lightgray solid; /* 테이블 하단 테두리 설정 */
+        height: 30px;  /* 테이블 높이 지정 */
+        font-size: 14px; /* 텍스트 크기 */ 
+    }
+     .num {
+        width: 50px;    /* 번호 정렬 */ 
+    }
+    .title {
+        width: 500px;    /* ?? 이건 왜 있어 */ 
+    }
+    .body {
+        text-align: center;
+    }
+    .body .title {
+        text-align: left;
+    }
+    button {
+        width: 100px;
+        height: 40px;
+        font-size: 15px;
+        border: 0;
+        outline: 1.5px rgb(68, 136, 244) solid;
+        border-radius: 5px;
+        padding-left: 10px;
+        background-color: rgb(164, 199, 255);
+    }
+    button:active {
+        width: 100px;
+        height: 40px;
+        font-size: 15px;
+        border: 0;
+        border-radius: 5px;
+        outline: 1.5px rgb(27, 76, 155) solid;
+        padding-left: 10px;
+        background-color: rgb(68, 136, 244); 
+    } 
+     
+    
+</style>
+</head>
+<body>
+<table class="table">
+    <tr><td colspan="2"><h2>게시판</h2></td></tr>
+    <tr class="header">
+        <td class="num">번호</td>
+        <td class="title">제목</td>
+        <td>작성자</td>
+        <td>작성날짜</td>
+    </tr>
+    <script>
+        var i, day = 20;
+        for (i = 10; i > 0; i--) {
+            document.write("<tr class='body'>");
+            document.write("<td>" + i +"</td>");
+            document.write("<td class='title'>제목입니다.</td>"); 
+            document.write("<td>작성자</td>"); 
+            document.write("<td>24-01-" + day-- + "</td>");
+            document.write("</tr>");
+        }
+       </script>
+</table>
+<br>
+<table>
+    <tr>
+        <td><button onclick="location.href='write.html'">글쓰기</button></td>
+    </tr>
+</table>
+</body>
+</html>
