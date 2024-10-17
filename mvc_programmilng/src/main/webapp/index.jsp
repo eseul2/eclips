@@ -62,6 +62,11 @@ alert('<%=msg%>');
 <div>
 <a href="<%=request.getContextPath()%>/member/memberLogin.aws">회원로그인 하기</a>
 </div>
-
+<div>
+<a href="<%=request.getContextPath()%>/member/memberList.aws">회원목록 가기</a>
+</div>
+<div>
+<a href="<%= request.getContextPath()%>/board/memberList.aws">게시판 목록 가기</a>
+</div>
 </body>
 </html>

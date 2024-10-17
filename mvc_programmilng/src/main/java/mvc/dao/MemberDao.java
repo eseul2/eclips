@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import mvc.dbcon.Dbconn;
 import mvc.vo.MemberVo;
@@ -29,6 +30,7 @@ public class MemberDao {	// MVC 방식으로 가기전에 첫번째 model1 방�
 	int value=0;   //메소드 지역변수  결과값을 담는다
 	String sql ="";
 	pstmt = null;   //쿼리 구문클래스 선언
+	
 	try{
 		
 		   sql ="insert into member(memberid,memberpw,membername," 
@@ -103,5 +105,91 @@ public class MemberDao {	// MVC 방식으로 가기전에 첫번째 model1 방�
 		
 		return mv;
 	}
+	
+	
+								// 멤버의 모든것을 가져올거다
+	public ArrayList<MemberVo> memberSelectAll() {  
+		
+		ArrayList<MemberVo> alist = new ArrayList<MemberVo>();  //한줄에 해당하는 컬럼값을 배열에 담는다.
+		String sql = "select * from member where delyn='N' order by midx desc"; // db에서 작성한 쿼리를 가져온다
+		ResultSet rs =null; // DB값을 가져오기 위한 전용 클래스 
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			//여러개의 값을 담아야 하기 때문에 반복문을 작성해야한다. 
+			while(rs.next()) { // 커서가 다음으로 이동해서 첫 글이 있느냐 물어보고 true면 진행
+				int midx = rs.getInt("midx");
+				String memberId = rs.getString("memberid");
+				String memberName = rs.getString("membername");
+				String memberGender = rs.getString("membergender");
+				String writeday = rs.getString("writeday");
+				
+				MemberVo mv = new MemberVo();	// 첫 행부터 mv에 옮겨담기
+				mv.setMidx(midx);
+				mv.setMemberid(memberId);
+				mv.setMembername(memberName); 
+				mv.setMembergender(memberGender); 
+				mv.setWriteday(writeday);
+				alist.add(mv);   // ArrayList 객체에 mv값을 하나씩 넣는다.
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();			 // 연결을 끊어준다. 
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return alist; // alist에 값을 담는다.
+	}
+	
+	
+	
+	
+	
+	
+	
+	// 로그인해서 회원정보를 가져오는 메소드 
+		public int memberIdCheck(String memberId) {
+		
+			MemberVo mv = null;
+			
+		
+			String sql = "select count(*) as cnt from member where memberid =?";
+			ResultSet rs = null;	// db에서 결과 데이터를 받아오는 전용 클래스 
+			int cnt = 0;
+			
+			try {
+				pstmt = conn.prepareStatement(sql); 
+				pstmt.setString(1, memberId);
+				rs = pstmt.executeQuery();   // 결과가 나온것을 rs에 담겠다. 
+				
+				
+				if(rs.next()) {  // 커서가 이동해서 데이터 값이 있으면. if(rs.next())와 같은 표현
+					cnt = rs.getInt("cnt"); 	// 결과값에서 회원번호를 뽑는다. 
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					rs.close();
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
+			return cnt;
+		}
+	
+	
+	
 
-}
+	}
+		

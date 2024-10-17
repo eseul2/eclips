@@ -5,7 +5,8 @@
 <TITLE> 회원가입</TITLE>
 
 <link href= "../css/style.css" type-"text/css" rel="stylesheet" >
-<script src="https://code.jquery.com/jquery-latest.min.js"></script> <!-- CDN주소 제이퉈리 사용하는주소 -->
+<!-- CDN주소 제이퉈리 사용하는주소 -->
+<script src="https://code.jquery.com/jquery-latest.min.js"></script> 
 <script>
 
 const email = /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/i;
@@ -22,7 +23,11 @@ function check() {
 		alert("아이디를 입력해주세요");
 		fm.memberid.focus();  // 커서가 입력안한 해당 자리로 갈수 있도록 
 		return;
-	} else if(fm.memberpw.value =="") {
+	}else if(fm.btn.value=="N"){
+		alert("아이디를 중복체크를 해주세요");
+		fm.memberid.focus(); 
+		return;
+	}else if(fm.memberpw.value =="") {
 		alert("비밀번호를 입력해주세요");
 		fm.memberpw.focus(); 
 		return;
@@ -102,9 +107,43 @@ function hobbyCheck() {
 $(document).ready(function(){
 	
 	$("#btn").click(function(){
-		alert("중복체크버튼 클릭");
+	//alert("중복체크버튼 클릭");
+	
+	let memberId = $("#memberid").val();  /* 버튼을 클릭하게되면 이 멤버 아이디 변수에 저장하겠다 */
+	if(memberId=="") {
+		alert("아이디를 입력해주세요");
+		return;
+	}
+	
+	$.ajax({	// ajax 형식
+		type : "post",	//전송방식
+		url : "<%=request.getContextPath()%>/member/memberIdCheck.aws", 
+		dataType : "json",	// json타입은 문서에서 {"키값" : "value값","키값2" : "value값2"}
+		data : {"memberId" : memberId },
+		success : function(result){	//결과가 넘어와서 성공했을 때 받는 영역
+			
+			//alert("전송 성공 테스트");
+			//alert("길이는" + result.length);
+			//alert("cnt값은" + result.cnt);
+			
+			if(result.cnt == 0) {
+				alert("사용할 수 있는 아이디입니다.");
+				$("#btn").val("Y");
+			}else{
+				alert("사용할 수 없는 아이디입니다.");
+				$("#memberid").val("");		// 입력한 아이디 지우기 입력한 해당 값을 지운다. 
+			}
+			
+			
+		},
+		error : function() {	// 결과가 실패했을 때 받는 영역 
+			
+			alert("전송 실패 테스트");
+		}
+		
 	});
-
+	
+	});
 		
 });
 
@@ -136,8 +175,8 @@ $(document).ready(function(){
 	<table style ="width:500px; "> 
 	<tr> 
 		<th class="idcolor">아이디</th> 
-		<td> <input type = "text" name = "memberid" maxlength = "20" style = "width:200px" value ="" placeholder="아이디를 입력하세요.">
-		<button type="button" id="btn">아이디 중복체크</button>
+		<td> <input type = "text" id = "memberid" name = "memberid" maxlength = "20" style = "width:200px" value ="" placeholder="아이디를 입력하세요.">
+		<button type="button" name= "btn" id="btn" value="N">아이디 중복체크</button>
 		</td> 
 	</tr>
 	<tr>
