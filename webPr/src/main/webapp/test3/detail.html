@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>글내용</title>
+<style>
+
+body {
+width : 800px;
+}
+
+
+.title {
+ font-size: 13px;
+}
+
+
+.main td, .main tr {
+	border-bottom: 1px lightgray solid; /* 테이블 하단 테두리 설정 */
+	height: 30px;  /* 테이블 높이 지정 */
+	font-size: 14px; /* 텍스트 크기 */ 
+}
+
+button {
+    width: 40px;
+    height: 30px;
+    font-size: 10px;
+    background-color: black;
+    color: white;
+}
+
+
+</style>
+</head>
+<body>
+
+<h2>글내용</h2>
+<hr>
+
+<table class="main">
+	<tr>
+		<td class="title"> 장애학생들을 위한 특별한 피아노 (조회수:7)
+		<br>
+		관리자 (2024-10-12)
+		</td>
+	</tr>
+	<tr>
+		<td id="detail" style="width: 300px; height: 200px;">글 내용~~~~~!!!!!! 전 너무 멍청해요~~!!!</td>
+	</tr>
+</table>
+
+
+
+<table>
+	<tr>
+		<td> 
+		<button type="button" id="writing" 
+		onclick="location.href='correction.html'">수정</button>
+		</td>
+		<td> 
+		<button type="button" id="writing" 
+		onclick="location.href='delete.html'">삭제</button>
+		</td>
+		<td> 
+		<button type="button" id="writing" 
+		onclick="location.href='answer.html'">답변</button>
+		</td>
+		<td> 
+		<button type="button" id="writing" 
+		onclick="location.href='Board.html'">목록</button>
+		</td>
+
+
+
+
+	</tr>
+</table>
+
+
+</body>
+</html>

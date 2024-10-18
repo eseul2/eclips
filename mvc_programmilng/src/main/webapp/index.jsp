@@ -66,7 +66,12 @@ alert('<%=msg%>');
 <a href="<%=request.getContextPath()%>/member/memberList.aws">회원목록 가기</a>
 </div>
 <div>
-<a href="<%= request.getContextPath()%>/board/memberList.aws">게시판 목록 가기</a>
+<a href="<%= request.getContextPath()%>/board/boardList.aws">게시판 목록 가기</a>
+</div>
+<div>
+<a href="<%= request.getContextPath()%>/board/boardWrite.aws">게시글 내용</a>
 </div>
 </body>
 </html>
+
+

@@ -24,7 +24,7 @@ public class FrontController extends HttpServlet {
 			
 			
 		}else if(entity[1].equals("board")) {
-			BoardController bc = new BoardController(entity[2]);
+			BoardController bc = new BoardController(entity[2]);  // 보드 컨트롤러로 가게끔 설정한거다
 			bc.doGet(request, response);
 			
 		}

@@ -1,0 +1,122 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>글쓰기</title>
+<style>
+
+table {
+	margin : auto; 
+}
+
+input[type="text"] {
+    width: 500px;
+    height: 30px;
+}
+
+textarea {
+    width: 500px;
+    height: 400px;
+}
+
+.header {
+	height : 50px;
+}
+
+
+button {
+    width: 50px;
+    height: 30px;
+    font-size: 15px;
+}
+
+
+.sub {
+    width: 30px;
+    height: 20px;
+   
+}
+
+</style>
+</head>
+<body>
+
+<script>
+function check() {
+	
+	//유효성 검사하기
+	var fm = document.frm;
+	
+	if(fm.title.value == "") {
+		alert("제목을 입력해주세요");
+		fm.title.focus();  // 커서가 입력안한 해당 자리로 갈수 있도록 
+		return;
+	} else if(fm.detail.value =="") {
+		alert("내용을 입력해주세요");
+		fm.detail.focus(); 
+		return;
+	}else if(fm.author.value =="") {
+		alert("작성자를 입력해주세요");
+		fm.author.focus(); 
+		return;
+	}else if(fm.pass.value =="") {
+		alert("비밀번호를 입력해주세요");
+		fm.pass.focus(); 
+		return;
+	}
+	
+	var ans = confirm("저장하시겠습니까?");
+	
+	if(ans == true) {	
+		fm.action="Board.html"; 
+		fm.method="post";
+		fm.submit();	
+	}
+	
+	 alert("저장되었습니다!");
+		return; 
+}
+	
+</script>
+
+
+<form name="frm">
+
+<h2>글쓰기</h2>
+
+<hr>
+
+<table>
+	<tr>
+		<td class="header">제목</td>
+	</tr>
+	<tr>
+		<td><input type="text" name= "title"></td>
+	</tr>
+	<tr>
+		<td>내용</td>
+	</tr>
+	<tr>
+		<td><textarea placeholder="내용을 입력하세요" name="detail"></textarea></td>
+	</tr>
+	<tr>
+		<td style="text-align:center">작성자<input type="text" name="author" ></td>
+	</tr>
+	<tr>
+		<td style="text-align:center">비밀번호<input type="password" name="pass"></td>
+	</tr>
+	<tr>
+		<td>첨부파일<input type="file"></td>
+	</tr>
+	<tr> 
+		<td><button type ="button" onclick="check()">저장</button></td>
+		<td><button type ="button" href="./list.html" onclick="alert('취소되었습니다.')">취소</button></td>
+	</tr>
+
+	
+</table>
+</form>
+</body>
+</html>
