@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import mvc.dbcon.Dbconn;
 import mvc.vo.BoardVo;
+import mvc.vo.Criteria;
 import mvc.vo.MemberVo;
 
 public class BoardDao {
@@ -26,17 +27,22 @@ public class BoardDao {
 	
 	
 	
-	public ArrayList<BoardVo> boardSelectAll() { // 4. 구문 클래스 생성하기: 형식부터 만들어라
+	public ArrayList<BoardVo> boardSelectAll(Criteria cri) { // 4. 구문 클래스 생성하기: 형식부터 만들어라
+		
+		int page = cri.getPage();    // 페이지번호
+		int perPageNum = cri.getPerPageNum();  // 2-44 화면 노출 리스트 갯수
 		
 		// 5. ArrayList 컬렉션 객체에 보드Vo를 담겠다. 보드VO는 컬럼값을 담겠다.
 		ArrayList<BoardVo> alist = new ArrayList<BoardVo>();    
 						
 		// 6. db에서 작성한 쿼리를 가져온다
-		String sql = "select * from board order by originbidx desc, depth asc"; 
+		String sql = "select * from board order by originbidx desc, depth asc limit ?,?"; // 2-41. 리미트 설정 다시 컨트롤러로
 		ResultSet rs =null; // 7. DB값을 가져오기 위한 전용 클래스 
 		
 		try {
 			pstmt = conn.prepareStatement(sql); // 9. SQL문을 실행하기 위해 준비하는 코드
+			pstmt.setInt(1,(page-1)*perPageNum);  // 2-45 
+			pstmt.setInt(2,perPageNum);		  // 2-46 하나도 모르겠어...
 			rs = pstmt.executeQuery(); // 10. 데이터베이스 쿼리를 실행하고, 그 결과를 ResultSet 객체에 저장한다.
 			
 			//11. 여러개의 값을 담아야 하기 때문에 반복문으로 작성해야한다. 
@@ -73,6 +79,93 @@ public class BoardDao {
 	
 	
 	//17. 이제 메소드 만든걸 컨트롤러에서 불러야겠죠?? 컨트롤러로 갑니다
+	
+	
+	// 페이지 갯수를 뽑아내는거니까 int형
+	// 2-5. 게시판 전체 갯수 구하기 
+	public int boardTotalCount() {
+		
+		int value=0;
+		// 2-6. 쿼리 만들기
+		String sql = "select count(*) as cnt from board where delyn='N'";
+		// 2-7 conn 객체 안에 있는 구문 클래스 호출하기 
+		// 2-8 DB 컬럼값을 받는 전용 클래스 REsultSet 호출(특징은 데이터를 그대로 복사하기 떼문에 전달이 빠르다)
+		ResultSet rs = null;
+		try {
+			pstmt=conn.prepareStatement(sql); // 2-8 conn을 전역변수로 설정했기 때문에 호출 
+			rs = pstmt.executeQuery();
+			
+			// 2-9 if구문 작성
+			if(rs.next()) { // 2-10 커서를 이동시켜서 첫줄로 옮긴다.
+				value = rs.getInt("cnt"); //2-11 지역변수 value에 담아서 리턴해서 가져간다. 
+			}	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {				 // 2-12. 각 객체도 소멸시키고 DB연결 끊는다.
+				rs.close();
+				pstmt.close();
+			//	conn.close();	
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+		return value;
+	}
+	
+	
+	public int boardInsert(BoardVo bv) {
+		int value =0;
+		
+		String subject = bv.getSubject();
+		String contents = bv.getContents();
+		String writer = bv.getWriter();
+		String password = bv.getPassword();
+		int midx = bv.getMidx();
+		
+		String sql ="insert into board(originbidx,depth,level_,subject,contents,writer,password,midx)"
+				+ "value(null,0,0,?,?,?,?,?)";
+		
+		String spl2 = "update board \r\n"
+	            + "set originbidx = (select * from (select max(bidx) from board) as temp) \r\n"
+	            + "where bidx = (select * from (select max(bidx) from board) as temp)";
+		try {
+			conn.setAutoCommit(false);  // 수동 커밋으로 하겠다.
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,subject);
+			pstmt.setString(2, contents);
+			pstmt.setString(3, writer);
+			pstmt.setString(4, password);
+			pstmt.setInt(5, midx);
+			int exec = pstmt.executeUpdate();	// 실행되면 1 안되면 0
+			
+			pstmt = conn.prepareStatement(spl2);
+			int exec2 = pstmt.executeUpdate();	// 실행되면 1 안되면 0
+			
+			conn.commit(); // 수동커밋 일괄처리
+			
+			value = exec + exec2;
+			
+		} catch (SQLException e) {
+		
+			try {
+				conn.rollback();    // 수동커밋 실행중 오류 발생시 롤백처리하기 
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}finally {
+			try {		
+				pstmt.close();
+			    conn.close();	
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+		return value;
+	}
+	
 	
 
 }

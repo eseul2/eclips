@@ -5,9 +5,13 @@
     
  <%
  ArrayList<BoardVo> alist = (ArrayList<BoardVo>)request.getAttribute("alist");
- System.out.println("alist==>" + alist);
+ //System.out.println("alist==>" + alist);
+ PageMaker pm = (PageMaker)request.getAttribute("pm"); //2-39. 뭐야...
+ 
+ 
  %>   
  <!-- 22. 이거 설정해주셔야 해요  -->   
+ 
     
 <!DOCTYPE html>
 <html>
@@ -51,21 +55,25 @@
 	</table>
 	
 	<div class="btnBox">
-		<a class="btn aBtn" href="<%request.getContextPath();%>/boardWrite.aws">글쓰기</a>
+		<a class="btn aBtn" href="<%request.getContextPath();%>/board/boardWrite.aws">글쓰기</a>
 	</div>
 	
+	 <!--  2-40. 이거 다 하면 보드Dao로 가세요 -->
 	<div class="page">
 		<ul>
-			<li class="on">1</li>
-			<li>2</li>
-			<li>3</li>
-			<li>4</li>
-			<li>5</li>
-			<li>6</li>
-			<li>7</li>
-			<li>8</li>
-			<li>9</li>
-			<li>10</li>
+		<%if (pm.isPrev()==true) { %>
+		<li><a href="<%=request.getContextPath()%>/board/boardList.aws?page=<%=pm.getStartPage()-1%>">←</a></li>
+		<% } %>
+		
+		<% for(int i = pm.getStartPage(); i<=pm.getEndPage(); i++) { %>  
+			<li <%if (i==pm.getCri().getPage()) {%> class="on"<%}%> > 
+			<a href="<%=request.getContextPath()%>/board/boardList.aws?page=<%=i%>"><%=i%></a>
+			</li>
+		<% }%>
+		
+		<%if(pm.isNext()==true && pm.getEndPage()>0){ %>
+		<li><a href="<%=request.getContextPath()%>/board/boardList.aws?page=<%=pm.getEndPage()+1%>">→</a></li>
+		<% } %>
 		</ul>
 	</div>
 </section>

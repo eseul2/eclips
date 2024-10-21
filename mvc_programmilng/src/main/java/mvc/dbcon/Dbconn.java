@@ -22,7 +22,7 @@ public class Dbconn {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	System.out.println("객체생성확인==> " + conn);  // 디버깅 코드입니당 
+//	System.out.println("객체생성확인==> " + conn);  // 디버깅 코드입니당 
 	return conn;	// 연결객체가 생겨났을 때의 객체 정보를 담고 있는 객체참조변수 
 					// null값이면 sql과 연결이 되지 않았다는 뜻
 	}

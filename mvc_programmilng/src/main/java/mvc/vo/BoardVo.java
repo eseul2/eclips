@@ -20,6 +20,7 @@ public class BoardVo {
 	private String writer;
 	private String filename;
 	private String ip;
+	private String password;
 	
 	 //3. 세터 게터 생성
 	public int getDelyn() {
@@ -111,6 +112,12 @@ public class BoardVo {
 	}
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 

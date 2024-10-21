@@ -49,28 +49,28 @@ function check() {
 	//유효성 검사하기
 	var fm = document.frm;
 	
-	if(fm.title.value == "") {
+	if(fm.subject.value == "") {
 		alert("제목을 입력해주세요");
-		fm.title.focus();  // 커서가 입력안한 해당 자리로 갈수 있도록 
+		fm.subject.focus();  // 커서가 입력안한 해당 자리로 갈수 있도록 
 		return;
-	} else if(fm.detail.value =="") {
+	} else if(fm.contents.value =="") {
 		alert("내용을 입력해주세요");
-		fm.detail.focus(); 
+		fm.contents.focus(); 
 		return;
-	}else if(fm.author.value =="") {
+	}else if(fm.writer.value =="") {
 		alert("작성자를 입력해주세요");
-		fm.author.focus(); 
+		fm.writer.focus(); 
 		return;
-	}else if(fm.pass.value =="") {
+	}else if(fm.password.value =="") {
 		alert("비밀번호를 입력해주세요");
-		fm.pass.focus(); 
+		fm.password.focus(); 
 		return;
 	}
 	
-	var ans = confirm("저장하시겠습니까?");
+	var ans = confirm("저장하시겠습니까?");  // 함수의 값은 참과 거짓 true false로 나눈다. 
 	
 	if(ans == true) {	
-		fm.action="Board.html"; 
+		fm.action="<%=request.getContextPath()%>/board/boardWriteAction.aws"; /* 이거 작성하고 컨트롤러로 가세요 */
 		fm.method="post";
 		fm.submit();	
 	}
@@ -93,26 +93,26 @@ function check() {
 		<td class="header">제목</td>
 	</tr>
 	<tr>
-		<td><input type="text" name= "title"></td>
+		<td><input type="text" name= "subject"></td>
 	</tr>
 	<tr>
 		<td>내용</td>
 	</tr>
 	<tr>
-		<td><textarea placeholder="내용을 입력하세요" name="detail"></textarea></td>
+		<td><textarea placeholder="내용을 입력하세요" name="contents"></textarea></td>
 	</tr>
 	<tr>
-		<td style="text-align:center">작성자<input type="text" name="author" ></td>
+		<td style="text-align:center">작성자<input type="text" name="writer" ></td>
 	</tr>
 	<tr>
-		<td style="text-align:center">비밀번호<input type="password" name="pass"></td>
+		<td style="text-align:center">비밀번호<input type="password" name="password"></td>
 	</tr>
 	<tr>
-		<td>첨부파일<input type="file"></td>
+		<td>첨부파일<input type="file" name="uploadfile"></td>
 	</tr>
 	<tr> 
 		<td><button type ="button" onclick="check()">저장</button></td>
-		<td><button type ="button" href="./list.html" onclick="alert('취소되었습니다.')">취소</button></td>
+		<td><button type ="button" onclick="history.back();">취소</button></td>
 	</tr>
 
 	

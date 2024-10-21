@@ -45,11 +45,11 @@ public class MemberController extends HttpServlet { // http 서블릿을 상속�
 		String paramMethod ="";   // 전송방식이 sendRedirect면 S라고 하고, forward방식이면 F로 값을 받을것이다. 
 		String url="";
 		
-		if(location.equals("memberJoinAction.aws")) { // 3번째방의 값이 memberJoinAction.aws이면 처리를하세요 
+		if(location.equals("memberJoinAction.aws")) { 
 		
 			String memberId = request.getParameter("memberid");
 			String memberPw = request.getParameter("memberpw");
-			String memberPw2 = request.getParameter("memberpw2");
+			//String memberPw2 = request.getParameter("memberpw2"); 확인이라서 굳이 안써도 된다. 회원가입 할때만 필요해서~~
 			String memberName = request.getParameter("membername");
 			String memberGender = request.getParameter("membergender");
 			String memberBirth = request.getParameter("memberbirth");
