@@ -22,11 +22,12 @@ public class BoardDao {
 						//생성을 해야 mysql접속이 가능하다
 	
 		Dbconn db = new Dbconn();  // 2. conn 연결 객체 생성하기
-		this.conn = db.getConnection(); // 3. 메소드를 실행해서 연결하기 
+		this.conn = db.getConnection(); // 3. 메소드를 실행해서 연결하기  getConnection() : 데이터베이스 연결을 생성하거나 가져오는 메서드
 	}
 	
 	
 	
+	//데이터베이스에서 게시판의 모든 게시글을 조회하여 배열 형태로 반환하는 메소드
 	public ArrayList<BoardVo> boardSelectAll(Criteria cri) { // 4. 구문 클래스 생성하기: 형식부터 만들어라
 		
 		int page = cri.getPage();    // 페이지번호
@@ -37,7 +38,7 @@ public class BoardDao {
 						
 		// 6. db에서 작성한 쿼리를 가져온다
 		String sql = "select * from board order by originbidx desc, depth asc limit ?,?"; // 2-41. 리미트 설정 다시 컨트롤러로
-		ResultSet rs =null; // 7. DB값을 가져오기 위한 전용 클래스 
+		ResultSet rs =null; // 7. DB값을 가져오기 위한 전용 클래스 (SQL 쿼리의 결과를 저장하고 조작하는 데 사용되는 인터페이스)
 		
 		try {
 			pstmt = conn.prepareStatement(sql); // 9. SQL문을 실행하기 위해 준비하는 코드
