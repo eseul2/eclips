@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import mvc.dbcon.Dbconn;
+import mvc.vo.BoardVo;
 import mvc.vo.MemberVo;
 
 public class MemberDao {	// MVC 방식으로 가기전에 첫번째 model1 방식 (설계)
@@ -187,9 +188,7 @@ public class MemberDao {	// MVC 방식으로 가기전에 첫번째 model1 방�
 			
 			return cnt;
 		}
-	
-	
-	
+		
 
 	}
 		

@@ -71,13 +71,13 @@ public class BoardController extends HttpServlet {
 			 url="/board/boardList.jsp"; // 실제 내부경로
 			
 			}else if(location.equals("boardWrite.aws")) {   //글쓰기 경로로 가세용 
-				System.out.println("boardWrite");
+				//System.out.println("boardWrite");
 				
 				paramMethod ="F";  // 포워드 방식은 내부에서 공유하는 것이기 때문에 내부에서 활동하고 이동한다.
 				url= "/board/boardWrite.jsp"; 
 			}else if(location.equals("boardWriteAction.aws")) { //boardWriteAction.aws 요청이 들어왔을 때, 
 															    //사용자가 작성한 글의 정보를 파라미터로 받아서 처리할 준비를 하는 부분
-				System.out.println("boardWriteAction.aws");
+				//System.out.println("boardWriteAction.aws");
 				// 1. 파라미터 값을 넘겨받는다. 
 				String subject = request.getParameter("subject"); //서브젝트라는 이름의 요청 파라미터를 가져와 변수에 저장
 				String contents = request.getParameter("contents");
@@ -107,9 +107,90 @@ public class BoardController extends HttpServlet {
 				}		
 				
 				//3. 처리후 이동한다. sendRedirect
-				paramMethod ="S";   
-				url= request.getContextPath()+"/board/boardList.aws"; 
+				/* 이거 필여없으면 지우세여 
+				 * paramMethod ="S"; url= request.getContextPath()+"/board/boardList.aws";
+				 */ 
+			}else if(location.equals("boardContents.aws")) {  //게시물 내용 넘어노느거
+				//System.out.println("boardContents.aws");
+				
+				// 1. 넘어온 값 받기
+				String bidx = request.getParameter("bidx");   // String 타입으로 bidx 받아오기
+				//System.out.println("bidx -->" + bidx);       // 값이 넘어왔는지 확인
+				int bidxInt = Integer.parseInt(bidx);	// 숫자형으로 되어있는 문자를 다시 바꿔준다. 
+				//System.out.println("CobidxInt"+bidxInt);
+				// 2. 처리하기
+				BoardDao bd = new BoardDao(); // 객체 생성하고 
+				BoardVo bv = bd.boardSelectOne(bidxInt); //다 문자형으로 넘어오기 때문에 숫자형으로 바궈줘야 한다. 생성한 메소드 호출
+				
+				
+				
+				request.setAttribute("bv",bv);	// 포워드 방식이라 같은 영역안에 있어서 공유해서 jsp페이지에서 꺼내 쓸 수 있다.
+				//System.out.println("Cobv"+bv);
+				
+				
+				// 3. 이동해서 화면 보여주기
+				paramMethod = "F";   // 화면을 보여주기 위해서 같은 영역 내부안에 jsp페이지를 보여준다. 
+				url= "/board/boardContents.jsp"; // 포워드 방식이기 때문에 바로 보여주는거라 리퀘스트 겟 컨텐츠 안해도된다. 	
+			}else if(location.equals("boardModify.aws")) {  // 글 수정 화면으로 넘어가는거
+				//System.out.println("boardModify.aws");
+				
+				String bidx = request.getParameter("bidx"); // 파라미터 bidx값 가져오기 
+				int bidxInt = Integer.parseInt(bidx);	// 원래 숫자형인데 문자열로 가져왔어서 다시 숫자형으로 변경
+				BoardDao bd = new BoardDao();	// 객체 생성하기
+				BoardVo bv = bd.boardSelectOne(bidxInt); // 회원 정보를 가져오는 메소드 호출
+				
+				request.setAttribute("bv",bv);	// 포워드 방식이라 같은 영역안에 있어서 공유해서 jsp페이지에서 꺼내 쓸 수 있다.
+				
+				paramMethod = "F"; 
+				url="/board/boardModify.jsp";	
+				
+
+			}else if(location.equals("boardModifyAction.aws")) {  //글 수정 해서 값 넘겨받고 객체에 새로 담는다.
+				System.out.println("boardModifyAction.aws");
+				
+				// 1. 파라미터 값을 넘겨받는다. 파라미터 값은 무조건 문자형으로 받는다.
+				String subject = request.getParameter("subject");
+				String contents = request.getParameter("contents"); // 인터넷 통신을 통해서 넘어오는 것들은 다 문자형으로 넘어온다.
+				String writer = request.getParameter("writer");
+				String password = request.getParameter("password");	// 비밀번호가 맞는지 체크를 해야한다. 
+				String bidx = request.getParameter("bidx");
+				int bidxInt = Integer.parseInt(bidx);	// 원래 숫자형인데 문자열로 가져왔어서 다시 숫자형으로 변경
+				
+				BoardDao bd = new BoardDao();	// 객체 생성하기
+				BoardVo bv = bd.boardSelectOne(bidxInt); // 회원 정보를 가져오는 메소드 호출
+			
+				paramMethod="S";  // 전역적으로 쓰면 됩니다. 
+				// 비밀번호 체크 
+				if(password.equals(bv.getPassword())) {
+					// 같으면
+					BoardDao bd2 = new BoardDao(); // 객체 생성 또 하나 하고 
+					BoardVo bv2 = new BoardVo();  // 여기에 넘어온 값을 담기
+					
+					bv2.setSubject(subject);
+					bv2.setContents(contents);
+					bv2.setWriter(writer);			// 이거 담을거임
+					bv2.setPassword(password);
+					bv2.setBidx(bidxInt);
+					int value = bd2.boardUpdate(bv2);
+					
+					if(value == 1) {  //입력성공
+						url= request.getContextPath()+"/board/boardContents.aws?bidx="+bidx;	
+					}else {  //입력실패
+						url= request.getContextPath()+"/board/boardModify.aws?bidx="+bidx;		
+					}		
+					
+				} else { // 비밀번호가 다르면 
+					url = request.getContextPath() + "/board/boardModify.aws?bidx=" + bidx;
+				}
+			
 			}
+
+		
+		
+		
+		
+		
+		
 		
 		
 		

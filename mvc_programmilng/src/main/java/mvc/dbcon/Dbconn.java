@@ -19,7 +19,6 @@ public class Dbconn {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(url, user, password);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 //	System.out.println("객체생성확인==> " + conn);  // 디버깅 코드입니당 

@@ -45,7 +45,7 @@
 		<%for(BoardVo bv : alist) { %>  <!-- 23. 향상된 for문. alist라는 리스트를 순회하면서 각 요소를 변수에 담아 반복 작업을 수행 -->
 		<tr>
 			<td><%=bv.getBidx()%></td>
-			<td class="title"><a href="./detail.html"><%=bv.getSubject()%></a></td>
+			<td class="title"><a href="<%request.getContextPath();%>/board/boardContents.aws?bidx=<%=bv.getBidx()%>"><%=bv.getSubject()%></a></td>
 			<td><%=bv.getWriter()%></td>	<!-- 24. dao 생성한 메소드 여기에 넣어줘야 한다. -->		
 			<td><%=bv.getViewcnt()%></td>
 			<td><%=bv.getWriteday()%></td>
